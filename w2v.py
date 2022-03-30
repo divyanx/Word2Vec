@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[30]:
 
 
 corpus = ['king is a strong man', 
@@ -16,7 +16,7 @@ corpus = ['king is a strong man',
           'princess is a girl will be queen']
 
 
-# In[29]:
+# In[31]:
 
 
 import json
@@ -53,13 +53,13 @@ with open(fileName, "r") as read_file:
 
 
 
-# In[17]:
+# In[32]:
 
 
 print(corpus[:10])
 
 
-# In[18]:
+# In[33]:
 
 
 from nltk.corpus import stopwords
@@ -76,13 +76,13 @@ def remove_stop_words(corpus):
     return results
 
 
-# In[19]:
+# In[34]:
 
 
 corpus = remove_stop_words(corpus)
 
 
-# In[20]:
+# In[35]:
 
 
 words = []
@@ -97,13 +97,13 @@ words = set(words)
 
 # here we have word set by which we will have word vector
 
-# In[21]:
+# In[36]:
 
 
-#print(words)
+print(words)
 
 
-# In[22]:
+# In[37]:
 
 
 word2int = {}
@@ -125,39 +125,38 @@ for sentence in sentences:
                 data.append([word, neighbor])
 
 
-# In[23]:
+# In[38]:
 
 
 import pandas as pd
-# for text in corpus:
-#     print(text)
+for text in corpus:
+    print(text)
 
 df = pd.DataFrame(data, columns = ['input', 'label'])
 
 
-# In[24]:
+# In[39]:
 
 
 df.head(10)
 
 
-# In[25]:
+# In[40]:
 
 
 df.shape
 
 
-# In[26]:
+# In[41]:
 
 
 len(word2int)
 
 
-# In[27]:
+# In[ ]:
 
 
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior() 
+import tensorflow as tf
 import numpy as np
 
 ONE_HOT_DIM = len(words)
@@ -202,7 +201,7 @@ loss = tf.reduce_mean(-tf.reduce_sum(y_label * tf.log(prediction), axis=[1]))
 train_op = tf.train.GradientDescentOptimizer(0.05).minimize(loss)
 
 
-# In[28]:
+# In[ ]:
 
 
 sess = tf.Session()
@@ -222,7 +221,7 @@ for i in range(iteration):
 
 
 vectors = sess.run(W1 + b1)
-#print(vectors)
+print(vectors)
 
 
 # In[ ]:
