@@ -100,7 +100,7 @@ words = set(words)
 # In[21]:
 
 
-print(words)
+#print(words)
 
 
 # In[22]:
@@ -129,8 +129,8 @@ for sentence in sentences:
 
 
 import pandas as pd
-for text in corpus:
-    print(text)
+# for text in corpus:
+#     print(text)
 
 df = pd.DataFrame(data, columns = ['input', 'label'])
 
@@ -222,7 +222,7 @@ for i in range(iteration):
 
 
 vectors = sess.run(W1 + b1)
-print(vectors)
+#print(vectors)
 
 
 # In[ ]:
