@@ -10,7 +10,6 @@
 # In[18]:
 
 
-get_ipython().system('pip install --upgrade tensorflow==2.8')
 
 
 # In[19]:
