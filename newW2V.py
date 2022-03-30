@@ -40,7 +40,8 @@ corpus = []
 fileName = 'Electronics_5.json'
 
 writeFile = './Data.txt'
-get_ipython().system(" rm './Data.txt'")
+f = open(writeFile, 'w')
+f.close()
 # read
 text = ""
 f = open(writeFile, "a")
