@@ -16,15 +16,17 @@ corpus = ['king is a strong man',
           'princess is a girl will be queen']
 
 
-# In[16]:
+# In[29]:
 
 
 import json
 import string
 import re
+import gdown
 corpus = []
 # read json file
 fileName = 'Electronics_5.json'
+
 # read
 with open(fileName, "r") as read_file:
     i = 0
