@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[29]:
+# In[15]:
 
 
 corpus = ['king is a strong man', 
@@ -16,7 +16,7 @@ corpus = ['king is a strong man',
           'princess is a girl will be queen']
 
 
-# In[1]:
+# In[16]:
 
 
 import json
@@ -29,7 +29,7 @@ fileName = 'Electronics_5.json'
 with open(fileName, "r") as read_file:
     i = 0
     l = read_file.readline()
-    while l and i < 10:
+    while l and i < 1000:
         i+=1
         l_dict = json.loads(l)
         review = l_dict["reviewText"]
@@ -51,13 +51,13 @@ with open(fileName, "r") as read_file:
 
 
 
-# In[2]:
+# In[17]:
 
 
 print(corpus[:10])
 
 
-# In[3]:
+# In[18]:
 
 
 from nltk.corpus import stopwords
@@ -74,13 +74,13 @@ def remove_stop_words(corpus):
     return results
 
 
-# In[4]:
+# In[19]:
 
 
 corpus = remove_stop_words(corpus)
 
 
-# In[5]:
+# In[20]:
 
 
 words = []
@@ -95,13 +95,13 @@ words = set(words)
 
 # here we have word set by which we will have word vector
 
-# In[6]:
+# In[21]:
 
 
 print(words)
 
 
-# In[36]:
+# In[22]:
 
 
 word2int = {}
@@ -123,7 +123,7 @@ for sentence in sentences:
                 data.append([word, neighbor])
 
 
-# In[37]:
+# In[23]:
 
 
 import pandas as pd
@@ -133,25 +133,25 @@ for text in corpus:
 df = pd.DataFrame(data, columns = ['input', 'label'])
 
 
-# In[38]:
+# In[24]:
 
 
 df.head(10)
 
 
-# In[39]:
+# In[25]:
 
 
 df.shape
 
 
-# In[40]:
+# In[26]:
 
 
 len(word2int)
 
 
-# In[41]:
+# In[27]:
 
 
 import tensorflow.compat.v1 as tf
@@ -200,7 +200,7 @@ loss = tf.reduce_mean(-tf.reduce_sum(y_label * tf.log(prediction), axis=[1]))
 train_op = tf.train.GradientDescentOptimizer(0.05).minimize(loss)
 
 
-# In[42]:
+# In[28]:
 
 
 sess = tf.Session()
