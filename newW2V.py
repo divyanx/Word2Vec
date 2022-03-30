@@ -1,18 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[13]:
+# In[ ]:
 
 
 
 
 
-# In[18]:
-
-
-
-
-# In[19]:
+# In[143]:
 
 
 import io
@@ -26,58 +21,81 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 
-# In[21]:
+# In[144]:
 
 
 print(tf.__version__)
 
 
-# In[4]:
+# In[145]:
 
 
-# import json
-# import string
-# import re
-# import gdown
-# corpus = []
-# # read json file
-# fileName = 'Electronics_5.json'
+import json
+import string
+import re
+import gdown
+SQLENGTH = 10
+corpus = []
+# read json file
+fileName = 'Electronics_5.json'
 
-# # read
-# with open(fileName, "r") as read_file:
-#     i = 0
-#     l = read_file.readline()
-#     while l and i < 100:
-#         i+=1
-#         l_dict = json.loads(l)
-#         review = l_dict["reviewText"]
-#         r_list = review.split('.')
-#         for r in r_list:
-#             r = re.sub('[^a-zA-Z]', ' ', r)
-#             r = r.lower()
-#             r = r.split()
-#             r = [w for w in r if not w in set(string.punctuation)]
-#             r = ' '.join(r)
-#             if r != '':
-#                 corpus.append(r)
-#         l = read_file.readline()
+writeFile = './Data.txt'
+get_ipython().system(" rm './Data.txt'")
+# read
+text = ""
+f = open(writeFile, "a")
+with open(fileName, "r") as read_file:
+    i = 0
+    l = read_file.readline()
+    while l and i < 100000:
+        if (i%1000 == 0):
+            print(i)
+        i+=1
+        l_dict = json.loads(l)
+        review = l_dict["reviewText"]
+        r_list = review.split('.')
+      
+        for r in r_list:
+            r = re.sub('[^a-zA-Z]', ' ', r)
+            r = r.lower()
+            r = r.split()
+            r = [w for w in r if not w in set(string.punctuation)]
+            j = 0
+            while j+SQLENGTH < len(r):
+                text = " ".join(r[j:j+10])
+                corpus.append(text)
+                f.write(text)
+                f.write("\n")
+                j+=SQLENGTH
+            if j < len(r):
+                text = " ".join(r[j:])
+                corpus.append(text)
+                f.write(text)
+                f.write("\n")
+        l = read_file.readline()
+           
+f.close()
+print(text)
 
 
-# In[22]:
+# In[146]:
 
 
 SEED = 42
-AUTOTUNE = tf.data.AUTOTUNE
-path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
-
 num_ns = 4
-# In[23]:
+AUTOTUNE = tf.data.AUTOTUNE
+# path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
+path_to_file = './Data.txt'
+
+
+# In[147]:
 
 
 text_ds = tf.data.TextLineDataset(path_to_file).filter(lambda x: tf.cast(tf.strings.length(x), bool))
+# save file locally
 
 
-# In[7]:
+# In[148]:
 
 
 # Generates skip-gram pairs with negative sampling for a list of sequences
@@ -130,7 +148,7 @@ def generate_training_data(sequences, window_size, num_ns, vocab_size, seed):
   return targets, contexts, labels
 
 
-# In[24]:
+# In[149]:
 
 
 # Now, create a custom standardization function to lowercase the text and
@@ -142,8 +160,8 @@ def custom_standardization(input_data):
 
 
 # Define the vocabulary size and the number of words in a sequence.
-vocab_size = 4096
-sequence_length = 10
+vocab_size = 10000
+sequence_length = SQLENGTH
 
 # Use the `TextVectorization` layer to normalize, split, and map strings to
 # integers. Set the `output_sequence_length` length to pad all samples to the
@@ -155,7 +173,7 @@ vectorize_layer = layers.TextVectorization(
     output_sequence_length=sequence_length)
 
 
-# In[ ]:
+# In[150]:
 
 
 vectorize_layer.adapt(text_ds.batch(1024))
