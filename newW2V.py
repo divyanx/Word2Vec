@@ -70,7 +70,7 @@ SEED = 42
 AUTOTUNE = tf.data.AUTOTUNE
 path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
 
-
+num_ns = 4
 # In[23]:
 
 
